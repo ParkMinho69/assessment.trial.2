@@ -39,9 +39,16 @@ public class MainActivity extends AppCompatActivity {
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (editTextTextEmailAddress.getText().toString().isEmpty() || editTextTextPassword.getText().toString().isEmpty()){
+                    if (isSigningUp && editTextTextEmailAddress2.getText().toString().isEmpty()){
+                        Toast.makeText((MainActivity.this),"Invalid input",Toast.LENGTH_SHORT.show());
+                        return;
+                    }
+                }
+            }
                 if (isSigningUp){
                     handleSignup();
-            }else {
+                }else {
                     handleLogin();
                 }
             }
@@ -82,6 +89,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void handleLogin(){
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(editTextTextEmailAddress.getText().toString().editTextTextPassword.getText().toString().addOnCompleteListener(new OnCompleteListener<AuthResult>()));{
+            public void OnComplete;(@NonNull Task<AuthResult> Task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(MainActivity.this, "Log in successful!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this,task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+
+                }
+        });
 
     }
 }
