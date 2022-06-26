@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">assessment trial 2</string>
+    <string name="Username">Username</string>
+    <string name="Email">Email</string>
+    <string name="Password">password</string>
+    <string name="submit">submit</string>
+    <string name="SingUp">signup</string>
+    <string name="already">Already have an account? Log in</string>
+</resources>
