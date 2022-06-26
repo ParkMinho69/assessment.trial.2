@@ -1,5 +1,6 @@
 package com.example.assessmenttrial2;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -7,6 +8,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +36,17 @@ public class MainActivity extends AppCompatActivity {
 
         txtLongininfo = findViewById(R.id.textView3);
 
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isSigningUp){
+                    handleSignup();
+            }else {
+                    handleLogin();
+                }
+            }
+        });
+
         txtLongininfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,6 +64,24 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+    }
+
+    private void handleSignup(){
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(editTextTextEmailAddress.getText().toString().editTextTextPassword.getText().toString().addOnCompleteListener(new OnCompleteListener<AuthResult>()));
+                @Override
+                public void OnComplete;(@NonNull Task<AuthResult> Task) {
+            if (task.isSuccessful()) {
+                Toast.makeText(MainActivity.this, "Sign up successful!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(MainActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+
+        });
+    }
+
+    private void handleLogin(){
 
     }
 }
