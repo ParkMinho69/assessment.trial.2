@@ -3,6 +3,7 @@ package com.example.assessmenttrial2;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -35,6 +36,11 @@ public class MainActivity extends AppCompatActivity {
         button2 = findViewById(R.id.button2);
 
         txtLonginInfo = findViewById(R.id.textView3);
+
+        if (FirebaseAuth.getInstance().getCurrentUser() !=null){
+            startActivity(new Intent(MainActivity.this,FriendsActivity.class));
+            finish();
+        }
 
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()){
+                        startActivity(new Intent(MainActivity.this,FriendsActivity.class));
                         Toast.makeText(MainActivity.this, "Sign up is Successful!", Toast.LENGTH_SHORT).show();
                     }else {
                         Toast.makeText(MainActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
@@ -94,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()){
+                        startActivity(new Intent(MainActivity.this,FriendsActivity.class));
                         Toast.makeText(MainActivity.this, "Log in is Successful!", Toast.LENGTH_SHORT).show();
                     }else {
                         Toast.makeText(MainActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
