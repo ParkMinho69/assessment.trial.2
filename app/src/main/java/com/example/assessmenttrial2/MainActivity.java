@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText editTextTextEmailAddress2, editTextTextPassword, editTextTextEmailAddress;
     private Button button2;
-    private TextView txtLongininfo;
+    private TextView txtLonginInfo;
 
     private boolean isSigningUp = true;
 
@@ -34,18 +34,19 @@ public class MainActivity extends AppCompatActivity {
 
         button2 = findViewById(R.id.button2);
 
-        txtLongininfo = findViewById(R.id.textView3);
+        txtLonginInfo = findViewById(R.id.textView3);
 
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if (editTextTextEmailAddress.getText().toString().isEmpty() || editTextTextPassword.getText().toString().isEmpty()){
                     if (isSigningUp && editTextTextEmailAddress2.getText().toString().isEmpty()){
-                        Toast.makeText((MainActivity.this),"Invalid input",Toast.LENGTH_SHORT.show());
+                        Toast.makeText(MainActivity.this, "Invalid input", Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }
-            }
+
                 if (isSigningUp){
                     handleSignup();
                 }else {
@@ -54,50 +55,57 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        txtLongininfo.setOnClickListener(new View.OnClickListener() {
+
+        txtLonginInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (isSigningUp) {
                     isSigningUp = false;
                     editTextTextEmailAddress2.setVisibility(View.GONE);
                     button2.setText("Log in");
-                    txtLongininfo.setText("Don't have an account? Sign up");
-                }else {
+                    txtLonginInfo.setText("Don't have an account?");
+                } else {
                     isSigningUp = true;
                     editTextTextEmailAddress2.setVisibility(View.VISIBLE);
                     button2.setText("Sign up");
-                    txtLongininfo.setText("Already have an account? Log in");
+                    txtLonginInfo.setText("Already have an account? Log in");
                 }
-
             }
         });
 
     }
 
-    private void handleSignup(){
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(editTextTextEmailAddress.getText().toString().editTextTextPassword.getText().toString().addOnCompleteListener(new OnCompleteListener<AuthResult>()));
+        private void handleSignup(){
+            FirebaseAuth.getInstance().createUserWithEmailAndPassword(editTextTextEmailAddress.getText().toString(),editTextTextPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
-                public void OnComplete;(@NonNull Task<AuthResult> Task) {
-            if (task.isSuccessful()) {
-                Toast.makeText(MainActivity.this, "Sign up successful!", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(MainActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-
-            }
-
-        });
-    }
-
-    private void handleLogin(){
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(editTextTextEmailAddress.getText().toString().editTextTextPassword.getText().toString().addOnCompleteListener(new OnCompleteListener<AuthResult>()));{
-            public void OnComplete;(@NonNull Task<AuthResult> Task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(MainActivity.this, "Log in successful!", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(MainActivity.this,task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()){
+                        Toast.makeText(MainActivity.this, "Sign up is Successful!", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(MainActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 }
-        });
+            });
 
-    }
+        }
+
+        private void handleLogin(){
+            FirebaseAuth.getInstance().signInWithEmailAndPassword(editTextTextEmailAddress.getText().toString(),editTextTextPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()){
+                        Toast.makeText(MainActivity.this, "Log in is Successful!", Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(MainActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+        }
+
+
+
+
+
+
 }
