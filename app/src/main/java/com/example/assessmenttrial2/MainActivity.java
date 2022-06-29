@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()){
+                        FirebaseDatabase.getInstance().getReference("user/"+ FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(new User(editTextTextEmailAddress2.getText().toString(),editTextTextEmailAddress.getText().toString(),""));
                         startActivity(new Intent(MainActivity.this,FriendsActivity.class));
                         Toast.makeText(MainActivity.this, "Sign up is Successful!", Toast.LENGTH_SHORT).show();
                     }else {
