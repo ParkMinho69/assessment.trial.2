@@ -1,9 +1,5 @@
 package com.example.assessmenttrial2;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,18 +11,24 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 import java.util.UUID;
 
+@SuppressWarnings("deprecation")
 public class Profile extends AppCompatActivity {
 
-    private Button btnLogOut, btnUpload;
     private ImageView imgProfile;
 
     private Uri imagePath;
@@ -36,8 +38,8 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        btnLogOut = findViewById(R.id.btnLogOut);
-        btnUpload = findViewById(R.id.btnuploadImage);
+        Button btnLogOut = findViewById(R.id.btnLogOut);
+        Button btnUpload = findViewById(R.id.btnuploadImage);
         imgProfile = findViewById(R.id.menu_item_profile);
 
 
@@ -61,6 +63,7 @@ public class Profile extends AppCompatActivity {
             public void onClick(View view) {
                 Intent photoIntent = new Intent(Intent.ACTION_PICK);
                 photoIntent.setType("image/*");
+                //noinspection deprecation
                 startActivityForResult(photoIntent, 1);
             }
         });
@@ -102,12 +105,31 @@ public class Profile extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                 if (task.isSuccessful()){
+                    task.getResult().getStorage().getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Uri> task) {
+                            if (task.isSuccessful()){
+                                updateProfilePicture(task.getResult().toString());
+                            }
+                        }
+                    });
                     Toast.makeText(Profile.this, "Image is Uploaded successfully!", Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(Profile.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                 }
                 progressDialog.dismiss();
             }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                double progress = 100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount();
+                progressDialog.setMessage(" Uploaded"+(int) progress + "%");
+            }
         });
     }
+
+    private void updateProfilePicture(String url){
+        FirebaseDatabase.getInstance().getReference("user/"+FirebaseAuth.getInstance().getCurrentUser().getUid() + "profilePicture").setValue(url);
+    }
+
 }
