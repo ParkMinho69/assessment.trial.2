@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".Profile">
 
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="180dp"

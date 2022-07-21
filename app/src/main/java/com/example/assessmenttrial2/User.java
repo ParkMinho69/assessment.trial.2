@@ -1,4 +1,4 @@
-package com.example.assessmenttrial2;
+package com.example.chatapp;
 
 public class User {
 
@@ -39,4 +39,5 @@ public class User {
     public void setProfilepicture(String profilepicture) {
         this.profilepicture = profilepicture;
     }
+
 }
