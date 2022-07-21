@@ -1,4 +1,4 @@
-package com.example.chatapp;
+package com.example.assessmenttrial2;
 
 public class User {
 

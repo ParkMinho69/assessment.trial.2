@@ -7,7 +7,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -25,13 +25,16 @@ import java.util.ArrayList;
 public class FriendsActivity<usersAdapter> extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private ArrayList<com.example.chatapp.User> users;
+    private ArrayList<User> users;
     private ProgressBar progressBar;
     private UsersAdapter usersAdapter;
     UsersAdapter.OnUserClickListener onUserClickListener;
 
 
     private SwipeRefreshLayout swipeRefreshLayout;
+
+    String myImageUrl;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,12 +56,20 @@ public class FriendsActivity<usersAdapter> extends AppCompatActivity {
         onUserClickListener = new UsersAdapter.OnUserClickListener() {
             @Override
             public void onUserClicked(int position) {
-                startActivity(new Intent(FriendsActivity.this,MessageActivity.class));
-                Toast.makeText(FriendsActivity.this, "User selected"+users.get(position).getUsername(), Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(FriendsActivity.this,MessageActivity.class)
+                        .putExtra("username_of_roommate",users.get(position).getUsername()));
+                        putExtra ("email_of_roommate",users.get(position).getEmail());
+                        putExtra("img_of_roommate",users.get(position).getProfilepicture());
+                        putExtra("my_img",myImageUrl);
+
+                ;
             }
         };
 
         getUsers();
+    }
+
+    private void putExtra(String email_of_roommate, String email) {
     }
 
 
@@ -84,7 +95,7 @@ public class FriendsActivity<usersAdapter> extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    users.add(dataSnapshot.getValue(com.example.chatapp.User.class));
+                    users.add(dataSnapshot.getValue(User.class));
                 }
                 usersAdapter = new UsersAdapter(users, FriendsActivity.this, onUserClickListener) {
 
@@ -99,6 +110,13 @@ public class FriendsActivity<usersAdapter> extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
 
+                for (User user: users){
+                    if(user.getEmail().equals(FirebaseAuth.getInstance().getCurrentUser().getEmail())){
+                        myImageUrl = user.getProfilepicture();
+                        return;
+                    }
+                }
+
             }
 
             @Override
@@ -106,7 +124,7 @@ public class FriendsActivity<usersAdapter> extends AppCompatActivity {
 
             }
 
-
         });
     }
+
 }

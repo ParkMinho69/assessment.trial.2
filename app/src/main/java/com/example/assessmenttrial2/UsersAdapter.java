@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public abstract class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserHolder> {
 
-    private ArrayList<com.example.chatapp.User> users;
+    private ArrayList<User> users;
     private Context context;
     private OnUserClickListener onUserClickListener;
     private ViewGroup parent;
@@ -23,13 +23,13 @@ public abstract class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.Use
     private LocalDate Glide;
 
 
-    public UsersAdapter(ArrayList<com.example.chatapp.User> users, Context context, OnUserClickListener onUserClickListener) {
+    public UsersAdapter(ArrayList<User> users, Context context, OnUserClickListener onUserClickListener) {
         this.users = users;
         this.context = context;
         this.onUserClickListener = onUserClickListener;
     }
 
-    public UsersAdapter(ArrayList<com.example.chatapp.User> users, FriendsActivity friendsActivity, OnUserClickListener onUserClickListener) {
+    public UsersAdapter(ArrayList<User> users, FriendsActivity friendsActivity, OnUserClickListener onUserClickListener) {
     }
 
     @NonNull
