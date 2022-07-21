@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                     isSigningUp = true;
                     editTextTextUsername.setVisibility(View.VISIBLE);
                     button.setText("Sign up");
-                    txtLonginInfo.setText("Already have an account? Log in");
+                    txtLonginInfo.setText("Already have an account?");
                 }
             }
         });
@@ -113,10 +113,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
-
-
-
 
 
 }

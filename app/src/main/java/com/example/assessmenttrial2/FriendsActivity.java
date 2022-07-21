@@ -25,7 +25,7 @@ import java.util.ArrayList;
 public class FriendsActivity<usersAdapter> extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private ArrayList<User> users;
+    private ArrayList<com.example.chatapp.User> users;
     private ProgressBar progressBar;
     private UsersAdapter usersAdapter;
     UsersAdapter.OnUserClickListener onUserClickListener;
@@ -40,11 +40,21 @@ public class FriendsActivity<usersAdapter> extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         users = new ArrayList<>();
         recyclerView = findViewById(R.id.recyler);
+        swipeRefreshLayout = findViewById(R.id.swipeLayout);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getUsers();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         onUserClickListener = new UsersAdapter.OnUserClickListener() {
             @Override
             public void onUserClicked(int position) {
-                Toast.makeText(FriendsActivity.this, "Tapped on user"+users.get(position).getUsername(), Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(FriendsActivity.this,MessageActivity.class));
+                Toast.makeText(FriendsActivity.this, "User selected"+users.get(position).getUsername(), Toast.LENGTH_SHORT).show();
             }
         };
 
@@ -69,12 +79,12 @@ public class FriendsActivity<usersAdapter> extends AppCompatActivity {
     }
 
     private void getUsers(){
-
+        users.clear();
         FirebaseDatabase.getInstance().getReference("user").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    users.add(dataSnapshot.getValue(User.class));
+                    users.add(dataSnapshot.getValue(com.example.chatapp.User.class));
                 }
                 usersAdapter = new UsersAdapter(users, FriendsActivity.this, onUserClickListener) {
 
@@ -95,6 +105,8 @@ public class FriendsActivity<usersAdapter> extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
+
+
         });
     }
 }
