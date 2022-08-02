@@ -1,12 +1,14 @@
 package com.example.assessmenttrial2;
 
-public class Message {
+import android.widget.EditText;
 
+public class Message {
+//setting up sender and receiver
     private String sender;
     private String receiver;
     private String content;
 
-    public Message(){
+    public Message(String email, String emailofRoommate, EditText edtMessageInput){
 
     }
 

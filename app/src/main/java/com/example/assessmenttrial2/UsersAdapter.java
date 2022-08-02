@@ -12,7 +12,7 @@ import com.google.firebase.database.core.Context;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-
+//in this class/window we can see the users that we'll be chatting with
 public abstract class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserHolder> {
 
     private ArrayList<User> users;
@@ -39,7 +39,7 @@ public abstract class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.Use
         void onUserClicked(int position);
     }
 
-
+//getting all the users names and profiles
     @NonNull
     @Override
     public UserHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -59,7 +59,7 @@ public abstract class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.Use
 
         return users.size();
     }
-
+//in this window user profile will be shown
     class UserHolder extends RecyclerView.ViewHolder {
         TextView txtUsername;
         ImageView imageView;

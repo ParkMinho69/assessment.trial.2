@@ -23,7 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class FriendsActivity<usersAdapter> extends AppCompatActivity {
-
+//this class contains getting users details, swipe refresh, profile menu
     private RecyclerView recyclerView;
     private ArrayList<User> users;
     private ProgressBar progressBar;
@@ -34,7 +34,7 @@ public class FriendsActivity<usersAdapter> extends AppCompatActivity {
     private SwipeRefreshLayout swipeRefreshLayout;
 
     String myImageUrl;
-
+//creating swipe refresh, where we'll be able to refresh the page
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +52,7 @@ public class FriendsActivity<usersAdapter> extends AppCompatActivity {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
-
+//this will show each user's name when they are chatting
         onUserClickListener = new UsersAdapter.OnUserClickListener() {
             @Override
             public void onUserClicked(int position) {
@@ -72,7 +72,7 @@ public class FriendsActivity<usersAdapter> extends AppCompatActivity {
     private void putExtra(String email_of_roommate, String email) {
     }
 
-
+//setting up profile menu where users will be able to change their profile pocture and also log out
     @Override
     public  boolean onCreateOptionsMenu(Menu Menu) {
         getMenuInflater().inflate(R.menu.profile_menu, Menu);
@@ -88,7 +88,7 @@ public class FriendsActivity<usersAdapter> extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
 
     }
-
+//getting users' details
     private void getUsers(){
         users.clear();
         FirebaseDatabase.getInstance().getReference("user").addListenerForSingleValueEvent(new ValueEventListener() {

@@ -17,6 +17,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+//this will open up the main log in/sign up page
 public class MainActivity extends AppCompatActivity {
 
     private EditText editTextTextUsername, editTextTextPassword, editTextTextEmailAddress;
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this,FriendsActivity.class));
             finish();
         }
-
+//setting up sign up button
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+//setting up log in button
         txtLonginInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
+//setting up sign up page which will also connect to log in page and will also proceed to the main page
     private void handleSignup(){
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(editTextTextEmailAddress.getText().toString(),editTextTextPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -97,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
+//setting up log in page which will also connect to sign up page and proceed to the main page
     private void handleLogin(){
         FirebaseAuth.getInstance().signInWithEmailAndPassword(editTextTextEmailAddress.getText().toString(),editTextTextPassword.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override

@@ -1,7 +1,7 @@
 package com.example.assessmenttrial2;
 
 public class User {
-
+//class for users and getting their details
     private String username;
     private String email;
     private String profilepicture;
